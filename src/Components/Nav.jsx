@@ -13,12 +13,6 @@ function Nav(props) {
         </div>
         <div className="navbar-center">
           <div className="form-control">
-            {/* <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-auto rounded-e-none focus:outline-none focus-within:outline-none"
-              
-            /> */}
             <label className="input input-bordered flex items-center gap-2">
               <input
                 type="text"

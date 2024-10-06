@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Nav from "../Components/Nav";
 import Card from "../Components/Card";
 import axios from "axios";
+import NotFound from "../Components/NotFound";
 
 function Home() {
   const [caracters, setCaracters] = useState([]);
@@ -32,6 +33,7 @@ function Home() {
 
       <div className="container mx-auto my-4">
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+          {foundCharacter.length === 0 ? <NotFound /> : ""}
           {foundCharacter.map((i, index) => {
             return (
               <Card

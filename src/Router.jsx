@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import Add from "./pages/Add";
+import Update from "./pages/Update";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/add",
     element: <Add />,
+  },
+  {
+    path: "/update/:id",
+    element: <Update />,
   },
 ]);
 

@@ -1,17 +1,34 @@
-import React, { useState } from "react";
-import Nav from "../Components/Nav";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Nav from "../Components/Nav";
 
-function Add() {
+function Update() {
   const [photo, setPhoto] = useState("");
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [status, setStatus] = useState("");
   const [hair, setHair] = useState("");
   const [origin, setOrigin] = useState("");
+  const [caracters, setCaracters] = useState([]);
 
   const navigate = useNavigate();
+  let { id } = useParams();
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
+
+  function fetchApi() {
+    axios
+      .get(`https://670239e1bd7c8c1ccd3e3b91.mockapi.io/W7-D1-Lap1/${id}`)
+      .then(function (response) {
+        setCaracters(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   function SendCharacter() {
     if (
@@ -26,7 +43,7 @@ function Add() {
     }
 
     axios
-      .post("https://670239e1bd7c8c1ccd3e3b91.mockapi.io/W7-D1-Lap1", {
+      .put(`https://670239e1bd7c8c1ccd3e3b91.mockapi.io/W7-D1-Lap1/${id}`, {
         image: photo,
         name: name,
         gender: gender,
@@ -41,7 +58,6 @@ function Add() {
         console.log(error);
       });
   }
-
   return (
     <div>
       <Nav />
@@ -53,7 +69,7 @@ function Add() {
             <input
               type="text"
               className="grow"
-              placeholder="Character photo (url)"
+              placeholder={caracters.image}
               value={photo}
               onChange={(e) => setPhoto(e.target.value)}
             />
@@ -62,7 +78,7 @@ function Add() {
             <input
               type="text"
               className="grow"
-              placeholder="Character name"
+              placeholder={caracters.name}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -71,7 +87,7 @@ function Add() {
             <input
               type="text"
               className="grow"
-              placeholder="Gender (male, female)"
+              placeholder={caracters.gender}
               value={gender}
               onChange={(e) => setGender(e.target.value)}
             />
@@ -80,7 +96,7 @@ function Add() {
             <input
               type="text"
               className="grow"
-              placeholder="Alive or Dead"
+              placeholder={caracters.status}
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             />
@@ -89,7 +105,7 @@ function Add() {
             <input
               type="text"
               className="grow"
-              placeholder="Hair color"
+              placeholder={caracters.hair}
               value={hair}
               onChange={(e) => setHair(e.target.value)}
             />
@@ -98,7 +114,7 @@ function Add() {
             <input
               type="text"
               className="grow"
-              placeholder="where he/she from"
+              placeholder={caracters.origin}
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
             />
@@ -112,4 +128,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default Update;

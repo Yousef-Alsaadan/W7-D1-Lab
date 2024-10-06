@@ -1,9 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Alirt from "./Alirt";
+import { Link } from "react-router-dom";
 
 function Card(props) {
   const [caracters, setCaracters] = useState([]);
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [characterToDelete, setCharacterToDelete] = useState(null);
+
   useEffect(() => {
     fetchApi();
   }, []);
@@ -20,24 +24,32 @@ function Card(props) {
   }
 
   function del(id) {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this character?"
-    );
+    setCharacterToDelete(id);
+    setDialogOpen(true);
+  }
 
-    if (confirmDelete) {
-      axios
-        .delete(`https://670239e1bd7c8c1ccd3e3b91.mockapi.io/W7-D1-Lap1/${id}`)
-        .then(function (response) {
-          fetchApi();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+  function handleConfirmDelete() {
+    axios
+      .delete(
+        `https://670239e1bd7c8c1ccd3e3b91.mockapi.io/W7-D1-Lap1/${characterToDelete}`
+      )
+      .then(function (response) {
+        fetchApi();
+        setDialogOpen(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   return (
     <div>
+      <Alirt
+        isOpen={isDialogOpen}
+        onClose={() => setDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
+
       <div className="card card-compact bg-base-100 w-96 shadow-xl">
         <figure>
           <img src={props.image} />
@@ -49,6 +61,9 @@ function Card(props) {
             origin:{props.origin}
           </p>
           <div className="card-actions justify-end">
+            <Link to={`/update/${props.id}`} className="btn btn-primary">
+              Update
+            </Link>
             <button
               className="btn btn-error"
               onClick={() => {
